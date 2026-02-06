@@ -61,12 +61,6 @@ const TemplateCard: React.FC<{ template: Template; onApply: () => void; onDelete
 )
 
 export const TemplateGallery: React.FC = () => {
-  const loadFromTemplate = useCanvasStore((s) => s.loadFromTemplate)
-  const setCanvasSize = useCanvasStore((s) => s.setCanvasSize)
-  const elements = useCanvasStore((s) => s.elements)
-  const elementOrder = useCanvasStore((s) => s.elementOrder)
-  const canvasWidth = useCanvasStore((s) => s.canvasWidth)
-  const canvasHeight = useCanvasStore((s) => s.canvasHeight)
   const customTemplates = useTemplateStore((s) => s.customTemplates)
   const saveAsTemplate = useTemplateStore((s) => s.saveAsTemplate)
   const deleteCustomTemplate = useTemplateStore((s) => s.deleteCustomTemplate)
@@ -77,26 +71,31 @@ export const TemplateGallery: React.FC = () => {
   const [saveDesc, setSaveDesc] = useState('')
 
   const handleApply = useCallback((template: Template) => {
+    const store = useCanvasStore.getState()
     if (template.canvasWidth && template.canvasHeight) {
-      setCanvasSize(template.canvasWidth, template.canvasHeight)
+      store.setCanvasSize(template.canvasWidth, template.canvasHeight)
     }
-    loadFromTemplate(template.elements)
+    // Deep clone elements to avoid mutating the template's stored data
+    const cloned = JSON.parse(JSON.stringify(template.elements))
+    store.loadFromTemplate(cloned)
     showToast(`Template "${template.name}" applied`)
-  }, [loadFromTemplate, setCanvasSize, showToast])
+  }, [showToast])
 
   const handleSave = useCallback(async () => {
     if (!saveName.trim()) return
-    const els = elementOrder.map((id) => elements[id]).filter(Boolean)
+    // Read directly from store to guarantee latest positions
+    const store = useCanvasStore.getState()
+    const els = store.elementOrder.map((id) => store.elements[id]).filter(Boolean)
     if (els.length === 0) {
       showToast('Canvas is empty, add elements first', 'error')
       return
     }
-    await saveAsTemplate(saveName.trim(), saveDesc.trim(), els, canvasWidth, canvasHeight)
+    await saveAsTemplate(saveName.trim(), saveDesc.trim(), els, store.canvasWidth, store.canvasHeight)
     showToast(`Template "${saveName.trim()}" saved`)
     setSaveName('')
     setSaveDesc('')
     setShowSaveDialog(false)
-  }, [saveName, saveDesc, elements, elementOrder, canvasWidth, canvasHeight, saveAsTemplate, showToast])
+  }, [saveName, saveDesc, saveAsTemplate, showToast])
 
   const handleDelete = useCallback(async (id: string, name: string) => {
     await deleteCustomTemplate(id)
