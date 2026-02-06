@@ -1,0 +1,22 @@
+{
+  "app.title": "SAP Designer",
+  "panel.components": "Composants",
+  "panel.templates": "Modèles",
+  "panel.properties": "Propriétés",
+  "panel.fieldTable": "Table des champs",
+  "toolbar.grid": "Grille",
+  "toolbar.snap": "Aimanter",
+  "toolbar.center": "Centrer",
+  "toolbar.clear": "Effacer",
+  "toolbar.screenshot": "Capture",
+  "category.basic": "Base",
+  "category.input": "Entrée",
+  "category.layout": "Mise en page",
+  "category.flow": "Flux / Processus",
+  "template.selectionScreen": "Écran de sélection",
+  "template.alvReport": "Rapport ALV",
+  "template.interfaceDiagram": "Diagramme d'interface",
+  "template.screenEnhancement": "Enhancement d'écran",
+  "template.apply": "Appliquer",
+  "template.saveCustom": "Enregistrer comme modèle"
+}

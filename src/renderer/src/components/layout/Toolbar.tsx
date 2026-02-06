@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useCanvasStore } from '@/store/canvas-store'
+import { useHistoryStore } from '@/store/history-store'
+import { useScreenshot } from '@/hooks/useScreenshot'
+import { useTranslation } from 'react-i18next'
 
 export const Toolbar: React.FC = () => {
   const gridVisible = useCanvasStore((s) => s.gridVisible)
@@ -12,6 +15,32 @@ export const Toolbar: React.FC = () => {
   const setCanvasBackground = useCanvasStore((s) => s.setCanvasBackground)
   const setPanOffset = useCanvasStore((s) => s.setPanOffset)
   const clearCanvas = useCanvasStore((s) => s.clearCanvas)
+
+  const { capture } = useScreenshot()
+  const { i18n } = useTranslation()
+
+  const handleUndo = useCallback(() => {
+    const store = useCanvasStore.getState()
+    const historyStore = useHistoryStore.getState()
+    const snapshot = historyStore.undo({ elements: store.elements, elementOrder: store.elementOrder })
+    if (snapshot) {
+      store.loadFromTemplate(snapshot.elementOrder.map((id) => snapshot.elements[id]).filter(Boolean))
+    }
+  }, [])
+
+  const handleRedo = useCallback(() => {
+    const store = useCanvasStore.getState()
+    const historyStore = useHistoryStore.getState()
+    const snapshot = historyStore.redo({ elements: store.elements, elementOrder: store.elementOrder })
+    if (snapshot) {
+      store.loadFromTemplate(snapshot.elementOrder.map((id) => snapshot.elements[id]).filter(Boolean))
+    }
+  }, [])
+
+  const handleScreenshot = useCallback(() => {
+    const canvasEl = document.getElementById('sap-designer-canvas')
+    if (canvasEl) capture(canvasEl)
+  }, [capture])
 
   const btnStyle: React.CSSProperties = {
     height: 32,
@@ -33,6 +62,12 @@ export const Toolbar: React.FC = () => {
     backgroundColor: '#e8f0fe',
     borderColor: '#0070f2',
     color: '#0070f2'
+  }
+
+  const disabledBtnStyle: React.CSSProperties = {
+    ...btnStyle,
+    opacity: 0.4,
+    cursor: 'default'
   }
 
   const separatorStyle: React.CSSProperties = {
@@ -69,6 +104,26 @@ export const Toolbar: React.FC = () => {
       >
         SAP Designer
       </div>
+
+      <div style={separatorStyle} />
+
+      {/* Undo / Redo */}
+      <button
+        className="no-drag-region"
+        style={useHistoryStore.getState().canUndo() ? btnStyle : disabledBtnStyle}
+        onClick={handleUndo}
+        title="Undo (Cmd+Z)"
+      >
+        Undo
+      </button>
+      <button
+        className="no-drag-region"
+        style={useHistoryStore.getState().canRedo() ? btnStyle : disabledBtnStyle}
+        onClick={handleRedo}
+        title="Redo (Cmd+Shift+Z)"
+      >
+        Redo
+      </button>
 
       <div style={separatorStyle} />
 
@@ -135,7 +190,33 @@ export const Toolbar: React.FC = () => {
         <option value="blueGreenGradient">Blue-Green</option>
       </select>
 
+      {/* Screenshot */}
+      <button
+        className="no-drag-region"
+        style={btnStyle}
+        onClick={handleScreenshot}
+        title="Screenshot (copies to clipboard)"
+      >
+        Screenshot
+      </button>
+
       <div style={{ flex: 1 }} />
+
+      {/* Language switcher */}
+      <select
+        className="no-drag-region"
+        style={{
+          ...btnStyle,
+          appearance: 'auto',
+          minWidth: 60
+        }}
+        value={i18n.language}
+        onChange={(e) => i18n.changeLanguage(e.target.value)}
+      >
+        <option value="en">EN</option>
+        <option value="zh">ZH</option>
+        <option value="fr">FR</option>
+      </select>
 
       {/* Clear canvas */}
       <button

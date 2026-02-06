@@ -1,17 +1,20 @@
 import { useEffect } from 'react'
 import { useCanvasStore } from '@/store/canvas-store'
+import { useHistoryStore } from '@/store/history-store'
 
 export function useKeyboardShortcuts(): void {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const isMod = e.metaKey || e.ctrlKey
       const store = useCanvasStore.getState()
+      const historyStore = useHistoryStore.getState()
 
       // Delete
       if (e.key === 'Delete' || e.key === 'Backspace') {
         if (store.editingElementId) return // Don't delete while editing text
         if (store.selectedElementIds.length > 0) {
           e.preventDefault()
+          historyStore.pushSnapshot({ elements: store.elements, elementOrder: store.elementOrder })
           store.removeElements(store.selectedElementIds)
         }
         return
@@ -42,6 +45,7 @@ export function useKeyboardShortcuts(): void {
           e.preventDefault()
           const clipData = sessionStorage.getItem('sap-designer-clipboard')
           if (clipData) {
+            historyStore.pushSnapshot({ elements: store.elements, elementOrder: store.elementOrder })
             const elements = JSON.parse(clipData)
             const newIds = store.duplicateElements(
               elements.map((el: { id: string }) => el.id)
@@ -57,9 +61,10 @@ export function useKeyboardShortcuts(): void {
         }
 
         case 'd':
-          // Duplicate / Delete
+          // Duplicate
           if (store.selectedElementIds.length > 0) {
             e.preventDefault()
+            historyStore.pushSnapshot({ elements: store.elements, elementOrder: store.elementOrder })
             store.duplicateElements(store.selectedElementIds)
           }
           break
@@ -67,7 +72,19 @@ export function useKeyboardShortcuts(): void {
         case 'z':
           // Undo / Redo
           e.preventDefault()
-          // TODO: implement with history store
+          if (e.shiftKey) {
+            // Redo
+            const snapshot = historyStore.redo({ elements: store.elements, elementOrder: store.elementOrder })
+            if (snapshot) {
+              store.loadFromTemplate(snapshot.elementOrder.map((id) => snapshot.elements[id]).filter(Boolean))
+            }
+          } else {
+            // Undo
+            const snapshot = historyStore.undo({ elements: store.elements, elementOrder: store.elementOrder })
+            if (snapshot) {
+              store.loadFromTemplate(snapshot.elementOrder.map((id) => snapshot.elements[id]).filter(Boolean))
+            }
+          }
           break
       }
     }

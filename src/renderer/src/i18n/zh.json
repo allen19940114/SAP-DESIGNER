@@ -1,0 +1,22 @@
+{
+  "app.title": "SAP 设计器",
+  "panel.components": "组件",
+  "panel.templates": "模板",
+  "panel.properties": "属性",
+  "panel.fieldTable": "字段表格",
+  "toolbar.grid": "网格",
+  "toolbar.snap": "吸附",
+  "toolbar.center": "居中",
+  "toolbar.clear": "清空",
+  "toolbar.screenshot": "截屏",
+  "category.basic": "基础",
+  "category.input": "输入",
+  "category.layout": "布局",
+  "category.flow": "流程 / 图形",
+  "template.selectionScreen": "选择屏幕",
+  "template.alvReport": "ALV 报表",
+  "template.interfaceDiagram": "接口示意图",
+  "template.screenEnhancement": "屏幕增强",
+  "template.apply": "应用",
+  "template.saveCustom": "保存为模板"
+}

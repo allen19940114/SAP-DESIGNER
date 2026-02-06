@@ -4,12 +4,16 @@ import { Toolbar } from './Toolbar'
 import { Canvas } from '../canvas/Canvas'
 import { ComponentLibrary } from '../library/ComponentLibrary'
 import { PropertyPanel } from '../properties/PropertyPanel'
+import { TemplateGallery } from '../templates/TemplateGallery'
+import { FieldTable } from '../field-table/FieldTable'
 
 export const AppShell: React.FC = () => {
   const leftPanelOpen = useUIStore((s) => s.leftPanelOpen)
   const rightPanelOpen = useUIStore((s) => s.rightPanelOpen)
   const leftPanelTab = useUIStore((s) => s.leftPanelTab)
+  const rightPanelTab = useUIStore((s) => s.rightPanelTab)
   const setLeftPanelTab = useUIStore((s) => s.setLeftPanelTab)
+  const setRightPanelTab = useUIStore((s) => s.setRightPanelTab)
   const toggleLeftPanel = useUIStore((s) => s.toggleLeftPanel)
   const toggleRightPanel = useUIStore((s) => s.toggleRightPanel)
 
@@ -88,9 +92,7 @@ export const AppShell: React.FC = () => {
               {leftPanelTab === 'components' ? (
                 <ComponentLibrary />
               ) : (
-                <div style={{ padding: 16, color: '#788fa6', fontSize: 13 }}>
-                  Templates coming soon...
-                </div>
+                <TemplateGallery />
               )}
             </div>
           </div>
@@ -143,17 +145,31 @@ export const AppShell: React.FC = () => {
         {rightPanelOpen && (
           <div
             style={{
-              width: 280,
+              width: rightPanelTab === 'fieldTable' ? 600 : 280,
               backgroundColor: '#ffffff',
               borderLeft: '1px solid #e5e5e5',
               display: 'flex',
               flexDirection: 'column',
-              flexShrink: 0
+              flexShrink: 0,
+              transition: 'width 0.2s ease'
             }}
           >
-            <div style={panelHeaderStyle}>Properties</div>
+            <div style={panelHeaderStyle}>
+              <div
+                style={tabStyle(rightPanelTab === 'properties')}
+                onClick={() => setRightPanelTab('properties')}
+              >
+                Properties
+              </div>
+              <div
+                style={tabStyle(rightPanelTab === 'fieldTable')}
+                onClick={() => setRightPanelTab('fieldTable')}
+              >
+                Field Table
+              </div>
+            </div>
             <div style={{ flex: 1, overflowY: 'auto' }}>
-              <PropertyPanel />
+              {rightPanelTab === 'properties' ? <PropertyPanel /> : <FieldTable />}
             </div>
           </div>
         )}

@@ -185,6 +185,7 @@ export const Canvas: React.FC = () => {
     >
       {/* Canvas surface */}
       <div
+        id="sap-designer-canvas"
         ref={canvasRef}
         style={{
           position: 'absolute',

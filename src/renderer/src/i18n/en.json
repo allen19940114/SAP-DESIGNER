@@ -1,0 +1,22 @@
+{
+  "app.title": "SAP Designer",
+  "panel.components": "Components",
+  "panel.templates": "Templates",
+  "panel.properties": "Properties",
+  "panel.fieldTable": "Field Table",
+  "toolbar.grid": "Grid",
+  "toolbar.snap": "Snap",
+  "toolbar.center": "Center",
+  "toolbar.clear": "Clear",
+  "toolbar.screenshot": "Screenshot",
+  "category.basic": "Basic",
+  "category.input": "Input",
+  "category.layout": "Layout",
+  "category.flow": "Flow / Process",
+  "template.selectionScreen": "Selection Screen",
+  "template.alvReport": "ALV Report",
+  "template.interfaceDiagram": "Interface Diagram",
+  "template.screenEnhancement": "Screen Enhancement",
+  "template.apply": "Apply",
+  "template.saveCustom": "Save as Template"
+}
