@@ -42,6 +42,25 @@ export const Toolbar: React.FC = () => {
     if (canvasEl) capture(canvasEl)
   }, [capture])
 
+  const handleOpen = useCallback(async () => {
+    const result = await window.electronAPI?.openProject()
+    if (result) {
+      const data = JSON.parse(result)
+      useCanvasStore.getState().loadProject(data)
+      useHistoryStore.getState().clear()
+    }
+  }, [])
+
+  const handleSave = useCallback(async () => {
+    const data = useCanvasStore.getState().getProjectData()
+    await window.electronAPI?.saveProject(JSON.stringify(data))
+  }, [])
+
+  const handleSaveAs = useCallback(async () => {
+    const data = useCanvasStore.getState().getProjectData()
+    await window.electronAPI?.saveProjectAs(JSON.stringify(data))
+  }, [])
+
   const btnStyle: React.CSSProperties = {
     height: 32,
     padding: '0 12px',
@@ -104,6 +123,17 @@ export const Toolbar: React.FC = () => {
       >
         SAP Designer
       </div>
+
+      {/* File operations */}
+      <button className="no-drag-region" style={btnStyle} onClick={handleOpen} title="Open (Cmd+O)">
+        Open
+      </button>
+      <button className="no-drag-region" style={btnStyle} onClick={handleSave} title="Save (Cmd+S)">
+        Save
+      </button>
+      <button className="no-drag-region" style={btnStyle} onClick={handleSaveAs} title="Save As (Cmd+Shift+S)">
+        Save As
+      </button>
 
       <div style={separatorStyle} />
 

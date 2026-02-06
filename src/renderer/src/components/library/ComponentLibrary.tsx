@@ -10,7 +10,7 @@ const categories: { key: ComponentCategory; label: string }[] = [
   { key: 'flow', label: 'Flow / Process' }
 ]
 
-const ComponentCard: React.FC<{ definition: SAPComponentDefinition }> = ({ definition }) => {
+const ComponentCard: React.FC<{ definition: SAPComponentDefinition }> = React.memo(({ definition }) => {
   const addElement = useCanvasStore((s) => s.addElement)
   const canvasWidth = useCanvasStore((s) => s.canvasWidth)
   const canvasHeight = useCanvasStore((s) => s.canvasHeight)
@@ -83,9 +83,11 @@ const ComponentCard: React.FC<{ definition: SAPComponentDefinition }> = ({ defin
       </div>
     </div>
   )
-}
+})
 
-export const ComponentLibrary: React.FC = () => {
+ComponentCard.displayName = 'ComponentCard'
+
+export const ComponentLibrary: React.FC = React.memo(() => {
   return (
     <div style={{ padding: '8px 0' }}>
       {categories.map((cat) => {
@@ -114,4 +116,6 @@ export const ComponentLibrary: React.FC = () => {
       })}
     </div>
   )
-}
+})
+
+ComponentLibrary.displayName = 'ComponentLibrary'

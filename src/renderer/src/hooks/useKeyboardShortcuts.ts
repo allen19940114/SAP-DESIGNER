@@ -69,6 +69,30 @@ export function useKeyboardShortcuts(): void {
           }
           break
 
+        case 's':
+          // Save / Save As
+          e.preventDefault()
+          if (e.shiftKey) {
+            const dataAs = store.getProjectData()
+            window.electronAPI?.saveProjectAs(JSON.stringify(dataAs))
+          } else {
+            const dataSave = store.getProjectData()
+            window.electronAPI?.saveProject(JSON.stringify(dataSave))
+          }
+          break
+
+        case 'o':
+          // Open
+          e.preventDefault()
+          window.electronAPI?.openProject().then((result: string | null) => {
+            if (result) {
+              const data = JSON.parse(result)
+              useCanvasStore.getState().loadProject(data)
+              useHistoryStore.getState().clear()
+            }
+          })
+          break
+
         case 'z':
           // Undo / Redo
           e.preventDefault()

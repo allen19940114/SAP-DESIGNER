@@ -1,6 +1,7 @@
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 import { registerIPCHandlers } from './ipc-handlers'
+import { createApplicationMenu } from './menu'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -39,6 +40,7 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   registerIPCHandlers()
+  createApplicationMenu()
   createWindow()
 
   app.on('activate', () => {
