@@ -1,0 +1,51 @@
+{
+  "name": "sap-designer",
+  "version": "1.0.0",
+  "description": "SAP Fiori Prototype Design Tool",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "unset ELECTRON_RUN_AS_NODE && electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "build:mac": "electron-vite build && electron-builder --mac",
+    "build:win": "electron-vite build && electron-builder --win",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "html-to-image": "^1.11.11",
+    "i18next": "^24.2.2",
+    "immer": "^10.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.4.1",
+    "uuid": "^11.1.0",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^28.3.3",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^5.0.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.4.1"
+  },
+  "build": {
+    "appId": "com.sap-designer.app",
+    "productName": "SAP Designer",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "resources/icon.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "resources/icon.ico"
+    }
+  }
+}

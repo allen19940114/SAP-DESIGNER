@@ -1,0 +1,76 @@
+:root {
+  /* Core */
+  --sap-brand-color: #0070f2;
+  --sap-highlight-color: #0064d9;
+  --sap-base-color: #ffffff;
+  --sap-shell-color: #ffffff;
+  --sap-background-color: #f5f6f7;
+  --sap-text-color: #1d2d3e;
+  --sap-link-color: #0064d9;
+
+  /* Status */
+  --sap-positive-color: #256f3a;
+  --sap-negative-color: #aa0808;
+  --sap-critical-color: #e76500;
+  --sap-informative-color: #0070f2;
+  --sap-neutral-color: #788fa6;
+
+  /* Typography */
+  --sap-font-family: "72", "72full", Arial, Helvetica, sans-serif;
+  --sap-font-size: 14px;
+  --sap-font-size-small: 12px;
+  --sap-font-size-header-1: 36px;
+  --sap-font-size-header-2: 24px;
+  --sap-font-size-header-3: 20px;
+  --sap-font-size-header-4: 18px;
+  --sap-font-size-header-5: 16px;
+
+  /* Border Radius */
+  --sap-element-border-radius: 12px;
+  --sap-button-border-radius: 8px;
+  --sap-field-border-radius: 4px;
+  --sap-card-border-radius: 12px;
+
+  /* Shadows */
+  --sap-shadow-0: 0 0 2px 0 rgba(34, 53, 72, 0.2);
+  --sap-shadow-1: 0 1px 4px 0 rgba(34, 53, 72, 0.2);
+  --sap-shadow-2: 0 2px 8px 0 rgba(34, 53, 72, 0.2);
+
+  /* Element Height */
+  --sap-element-height: 36px;
+
+  /* Buttons */
+  --sap-button-background: #ffffff;
+  --sap-button-border-color: #bcc3ca;
+  --sap-button-text-color: #1d2d3e;
+  --sap-button-emphasized-background: #0070f2;
+  --sap-button-emphasized-text-color: #ffffff;
+  --sap-button-hover-background: #eaecee;
+
+  /* Fields */
+  --sap-field-background: #ffffff;
+  --sap-field-border-color: #89919a;
+  --sap-field-text-color: #1d2d3e;
+  --sap-field-placeholder-color: #788fa6;
+  --sap-field-focus-border-color: #0070f2;
+
+  /* Toolbar */
+  --sap-toolbar-background: #ffffff;
+  --sap-toolbar-separator-color: #d9d9d9;
+
+  /* Table */
+  --sap-table-header-background: #f5f6f7;
+  --sap-table-header-color: #556b82;
+  --sap-table-border-color: #e5e5e5;
+  --sap-table-row-hover-background: #eaecee;
+
+  /* Card */
+  --sap-card-background: #ffffff;
+  --sap-card-border-color: #e5e5e5;
+  --sap-card-shadow: 0 1px 4px 0 rgba(34, 53, 72, 0.12);
+
+  /* Surface */
+  --sap-list-background: #ffffff;
+  --sap-list-hover-background: #eaecee;
+  --sap-list-active-background: #dee2e5;
+}

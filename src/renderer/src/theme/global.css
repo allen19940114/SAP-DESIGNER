@@ -1,0 +1,77 @@
+@import './horizon.css';
+
+/* SAP 72 Font - Using web-safe fallback, self-host 72 font for production */
+@font-face {
+  font-family: '72';
+  src: url('https://experience.sap.com/fiori-design-web/wp-content/uploads/sites/5/2019/06/72-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '72';
+  src: url('https://experience.sap.com/fiori-design-web/wp-content/uploads/sites/5/2019/06/72-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '72';
+  src: url('https://experience.sap.com/fiori-design-web/wp-content/uploads/sites/5/2019/06/72-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--sap-font-family);
+  font-size: var(--sap-font-size);
+  color: var(--sap-text-color);
+  background-color: var(--sap-background-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c6c8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #89919a;
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 112, 242, 0.2);
+}
+
+/* Drag region for Electron title bar */
+.drag-region {
+  -webkit-app-region: drag;
+}
+
+.no-drag-region {
+  -webkit-app-region: no-drag;
+}
