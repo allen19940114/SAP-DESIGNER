@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { useCanvasStore } from '@/store/canvas-store'
 import { useHistoryStore } from '@/store/history-store'
+import { useUIStore } from '@/store/ui-store'
 import { useScreenshot } from '@/hooks/useScreenshot'
 import { useTranslation } from 'react-i18next'
 
@@ -16,6 +17,7 @@ export const Toolbar: React.FC = () => {
   const setPanOffset = useCanvasStore((s) => s.setPanOffset)
   const clearCanvas = useCanvasStore((s) => s.clearCanvas)
 
+  const showToast = useUIStore((s) => s.showToast)
   const { capture } = useScreenshot()
   const { i18n } = useTranslation()
 
@@ -48,18 +50,21 @@ export const Toolbar: React.FC = () => {
       const data = JSON.parse(result)
       useCanvasStore.getState().loadProject(data)
       useHistoryStore.getState().clear()
+      showToast('Project opened')
     }
-  }, [])
+  }, [showToast])
 
   const handleSave = useCallback(async () => {
     const data = useCanvasStore.getState().getProjectData()
     await window.electronAPI?.saveProject(JSON.stringify(data))
-  }, [])
+    showToast('Project saved')
+  }, [showToast])
 
   const handleSaveAs = useCallback(async () => {
     const data = useCanvasStore.getState().getProjectData()
-    await window.electronAPI?.saveProjectAs(JSON.stringify(data))
-  }, [])
+    const result = await window.electronAPI?.saveProjectAs(JSON.stringify(data))
+    if (result !== null) showToast('Project saved as new file')
+  }, [showToast])
 
   const btnStyle: React.CSSProperties = {
     height: 32,
